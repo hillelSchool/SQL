@@ -35,12 +35,8 @@ public class JDBCexample {
             while (rsPhone.next()){
                 Calendar date = Calendar.getInstance();
                 date.setTime(rsPhone.getTime("added"));
-                String a =
-                        rsPhone.getString("added") + " | " +
-                                rsPhone.getString("last_name") + " | " +
-                                rsPhone.getString("phonecall.dt")+ " | " +
-                                rsPhone.getString("number") +" | " +
-                                rsPhone.getString("phonecall.description");
+
+                String a = formatPrintQuery(rsPhone); // Вывод запроса в консоль
 
                 System.out.println(a);
             }
@@ -54,7 +50,7 @@ public class JDBCexample {
                 if(c != null)
                     c.close();
             } catch (SQLException e) {
-                // TODO Auto-generated catch blockацуауцу
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -87,12 +83,8 @@ public class JDBCexample {
             while (rsPhone.next()){
                 Calendar date = Calendar.getInstance();
                 date.setTime(rsPhone.getTime("added"));
-                String a =
-                        rsPhone.getString("added") + " | " +
-                                rsPhone.getString("last_name") + " | " +
-                                rsPhone.getString("phonecall.dt")+ " | " +
-                                rsPhone.getString("number") +" | " +
-                                rsPhone.getString("phonecall.description");
+
+                String a = formatPrintQuery(rsPhone); // Вывод запроса в консоль
 
                 if (date.get(Calendar.HOUR_OF_DAY) >= hour) {
                     callAfterHour = callAfterHour + a + '\n';
@@ -131,5 +123,20 @@ public class JDBCexample {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static String formatPrintQuery(ResultSet rsPhone) {
+      String a = null;
+        try {
+            a = String.format("| %s | %-10s | %s | %-16s | %-25s |",
+                            rsPhone.getString("added"),
+                            rsPhone.getString("last_name"),
+                            rsPhone.getString("phonecall.dt"),
+                            rsPhone.getString("number"),
+                            rsPhone.getString("phonecall.description"));
+        }catch (SQLException e){
+            System.out.println("Error formatPrintQuery()");
+        }
+        return a;
     }
 }
