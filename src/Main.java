@@ -18,5 +18,6 @@ public class Main {
 
         new JDBCexample().testInject(sqlInject); //можно закомментить одно из них или оба
         new JDBCexample().callsByTime(sqlInject, hour, operator); // и здесь
+
     }
 }
