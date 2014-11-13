@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String sqlInject = "уцацуцуа";
+        String sqlInject = "";
         // String sqlInject = "q%' Delete from phonebook where phonebook.last_name like '%Stepurko%'; -- ";
 
         int hour = 16;
