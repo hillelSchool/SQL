@@ -10,13 +10,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //String sqlInject = "";
-         String sqlInject = "%petr%' and 1=1 union -- ";
+        String sqlInject = "";
+         //String sqlInject = "%petr%' and 1=1 union -- ";
 
         int hour = 16;
         boolean operator = false; // true: after than before, false: before than after
 
-        //new JDBCexample().testInject(sqlInject); //можно закомментить одно из них или оба
+        new JDBCexample().testInject(sqlInject); //можно закомментить одно из них или оба
        // new JDBCexample().callsByTime(sqlInject, hour, operator); // и здесь
         //new JDBCexample().insertLenin("Lenin");
     }
