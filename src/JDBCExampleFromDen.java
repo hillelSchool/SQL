@@ -206,6 +206,8 @@ public class JDBCExampleFromDen {
         try {
             tempString = String.format("| %s | %-10s | %-16s |  %-10s | %-26s | %s |\n",
                     rs.getString("id"),
+                    rs.getString("first_name"),
+
                     rs.getString("number"),
                     rs.getString("type"),
                     rs.getString("description"),
