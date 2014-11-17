@@ -125,6 +125,39 @@ public class JDBCexample {
         }
     }
 
+    public void insertLenin(String phoneOwnName){
+        try {
+            Class.forName(driver);//Регистрируем драйвер
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Connection c = null;//Соединение с БД
+
+        try{
+            c = DriverManager.getConnection(url, user, password);//Установка соединения с БД
+            Statement st = c.createStatement();//Готовим запрос
+            String query = "insert into 'phonebook' (first_name,last_name,city,description) values ('Vladimir','lenin','msk','4eluskincev');";    /*'%"/* +
+                    phoneOwnName +
+                    "%','Moscow','Live in mavzole');";*/
+            //System.out.println(query);
+            st.execute(query);//Выполняем запрос к БД, результат в переменной rsPhone
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            //Обязательно необходимо закрыть соединение
+            try {
+                if(c != null)
+                    c.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
     private static String formatPrintQuery(ResultSet rsPhone) {
       String a = null;
         try {
