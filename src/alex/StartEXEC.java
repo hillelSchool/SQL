@@ -36,14 +36,14 @@ public class StartEXEC {
                     System.out.println("Enter SQL query:");
                     String queryBR = br.readLine();
                     manualQuery.QuerySQL(queryBR);
-                    Exit.exit();
+                    Close.exit();
                     break;
                 case 2:
 
                     menu.QuerySQL("select * from sql_query");
                     int num = Integer.parseInt(br.readLine());
                     new JDBCmenu().QuerySQL(menu.list.get(num - 1));
-                    Exit.exit();
+                    Close.exit();
                     break;
 
                 case 3:
@@ -51,7 +51,7 @@ public class StartEXEC {
                     join.testJoin("select * from tableA inner join tableB on tableA.name = tableB.name;");
                     join.testJoin("select * from tableA left join tableB on tableA.name = tableB.name;");
                     join.testJoin("select * from tableA right join tableB on tableA.name = tableB.name;");
-                    Exit.exit();
+                    Close.exit();
                     break;
 
                 case 4:
