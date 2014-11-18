@@ -13,7 +13,11 @@ public class Close {
             System.out.println("Continue ... (Y / N)?");
             select = br.readLine();
             if (select.toUpperCase().equals("Y")) break;
-            if (select.toUpperCase().equals("N")) System.exit(0);
+            if (select.toUpperCase().equals("N")) {
+
+                System.exit(0);
+            }
+
         }
     }
 }

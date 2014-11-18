@@ -1,12 +1,9 @@
 package alex;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class JDBCjoin {
-    String user = "student";//Логин пользователя
-    String password = "P@ssw0rd";//Пароль пользователя
-    String url = "jdbc:mysql://217.146.253.33/tram_groundhog_day";//URL адрес
-    String driver = "com.mysql.jdbc.Driver";//Имя драйвера
 
     public void formatTable(){
         System.out.println("+---------------------+---------------------+");
@@ -22,21 +19,9 @@ public class JDBCjoin {
     }
 
 
-    public void testJoin(String query ){
+    public void testJoin(String query, Statement st ){
+
         try {
-            Class.forName(driver);//Регистрируем драйвер
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        Connection c = null;//Соединение с БД
-
-        try{
-            c = DriverManager.getConnection(url, user, password);//Установка соединения с БД
-            Statement st = c.createStatement();//Готовим запрос
-            //String query =  "select * from tableA inner join tableB on tableA.name = tableB.name;";
-
-
             ResultSet innerJoin = st.executeQuery(query);//Выполняем запрос к БД, результат в переменной rsPhone
             System.out.printf("Result SQL query: %n" + query.toString().toUpperCase());
             System.out.println();
@@ -57,16 +42,6 @@ public class JDBCjoin {
             System.out.println("+-------+-------------+-------+-------------+");
         } catch(Exception e){
             e.printStackTrace();
-        }
-        finally{
-            //Обязательно необходимо закрыть соединение
-            try {
-                if(c != null)
-                    c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
     }
 
