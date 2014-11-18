@@ -1,0 +1,4 @@
+user =      "student";                                          //Логин пользователя
+password =  "P@ssw0rd";                                         //Пароль пользователя
+url =       "jdbc:mysql://217.146.253.33/tram_groundhog_day";   //URL адрес
+driver =    "com.mysql.jdbc.Driver";                            //Имя драйвера

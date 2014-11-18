@@ -8,7 +8,8 @@ package Den;
 public class JDBCExampleByDen {
     public static void main(String[] args) {
 
-        ConsoleInputCrud.consoleInputCrud(); //Ввод запроса с консоли
-
+//          Сделать циклический запрос меню.
+            ConsoleOperation.selectMenuItem();    //Ввод запроса с консоли
+            PrintQueryObject.printQueryObject();  //Вывод результата в консоль
     }
 }
