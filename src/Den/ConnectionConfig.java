@@ -3,7 +3,6 @@ package Den;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -35,7 +34,7 @@ public class ConnectionConfig {
             boolean aPassword = false;
 
             public void startElement(String uri, String localName, String qName,
-                                     Attributes attributes) throws SAXException {
+                                     Attributes attributes){
 
                 if (qName.equalsIgnoreCase("url")) aUrl = true;
                 if (qName.equalsIgnoreCase("driver")) aDriver = true;
@@ -43,7 +42,7 @@ public class ConnectionConfig {
                 if (qName.equalsIgnoreCase("password")) aPassword = true;
             }
 
-            public void characters(char ch[], int start, int length) throws SAXException {
+            public void characters(char ch[], int start, int length){
 
                 if (aDriver) {
                     driver = new String(ch, start, length);

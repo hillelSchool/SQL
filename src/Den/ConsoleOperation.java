@@ -46,19 +46,23 @@ public class ConsoleOperation {
     private static void doingQueryToDB() {
         System.out.print("Write your query to DB: ");
         query = readFromConsole().trim();
-        ConnectAndCRUD.connectAndCUDToDB();
+        printQueryText(); //вывод текста запроса в консоль до отсылки самого запроса
+        ConnectAndCRUD.connectAndCRUDToDB();
     }
 
     private static void doingTemplateQueryToDB() {
         System.out.println("query list:");
         Map<Integer, String> mapQuery = readFile(pathToQueryToDBFile);
+        int count = 1;
         for (String s : mapQuery.values()) {
-            System.out.println(s);
+            System.out.println(count + " " + s);
+            count++;
         }
         System.out.print("Select number of query: ");
         int selectMenuItem = Integer.parseInt(readFromConsole().trim()) - 1;
-        query = mapQuery.get(selectMenuItem).substring(mapQuery.get(selectMenuItem).indexOf('s')).trim();
-        ConnectAndCRUD.connectAndCUDToDB();
+        query = mapQuery.get(selectMenuItem).trim();
+        printQueryText(); //вывод текста запроса в консоль до отсылки самого запроса
+        ConnectAndCRUD.connectAndCRUDToDB();
     }
 
     private static void printMenu() {
@@ -88,7 +92,7 @@ public class ConsoleOperation {
         return lineConsole;
     }
 
-    public static Map<Integer, String> readFile(String pathFile) {
+    private static Map<Integer, String> readFile(String pathFile) {
         Map<Integer, String> buffer = new TreeMap<>();
         BufferedReader reader = null;
         try {
@@ -115,5 +119,49 @@ public class ConsoleOperation {
             }
         }
         return buffer;
+    }
+
+    private static void printQueryText() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (!query.equals("")) {
+            String[] arrayQuery = query.split(" ");
+            for (String anArrayQuery : arrayQuery) {
+                switch (anArrayQuery) {
+                    case "select":
+                        stringBuilder.append("\n");
+                        break;
+                    case "from":
+                        stringBuilder.append("\n");
+                        break;
+                    case "where":
+                        stringBuilder.append("\n");
+                        break;
+                    case "order":
+                        stringBuilder.append("\n");
+                        break;
+                    case "insert":
+                        stringBuilder.append("\n");
+                        break;
+                    case "delete":
+                        stringBuilder.append("\n");
+                        break;
+                    case "left":
+                        stringBuilder.append("\n");
+                        break;
+                    case "right":
+                        stringBuilder.append("\n");
+                        break;
+                    case "alter":
+                        stringBuilder.append("\n");
+                        break;
+                    case "update":
+                        stringBuilder.append("\n");
+                        break;
+                }
+                stringBuilder.append(anArrayQuery).append(" ");
+            }
+        }
+        stringBuilder.append("\n");
+        System.out.println(stringBuilder);
     }
 }

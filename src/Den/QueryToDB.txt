@@ -1,11 +1,12 @@
-1 select * from city
-2 select * from phone
-3 select * from phonebook
-4 select * from street
-5 select * from phonecall
-6 select city.idcity, city.city_Name, street.street_name from city left outer join street on city.idcity = street.idcity order by city.idcity
-7 select phonebook.id, phone.number, phonebook.first_name, phonecall.description, phone.type, phonecall.dt from phone, phonebook, phonecall where phone.phonebook_id = phonebook.id and phone.id = phonecall.phone_id order by phonebook.id
-8 select * from tableA inner join tableB on tableA.name = tableB.name
-9 select * from tableA left join tableB on tableA.name = tableB.name
-10 select * from tableA right join tableB on tableA.name = tableB.name
-11 select * from sql_query
+select * from city
+select * from phone
+select * from phonebook
+select * from street
+select * from phonecall
+select city.idcity, city.city_Name, street.street_name from city left outer join street on city.idcity = street.idcity order by city.idcity
+select phonebook.id, phone.number, phonebook.first_name, phonecall.description, phone.type, phonecall.dt from phone, phonebook, phonecall where phone.phonebook_id = phonebook.id and phone.id = phonecall.phone_id order by phonebook.id
+select * from tableA left join tableB on tableA.name = tableB.name
+select * from tableA right join tableB on tableA.name = tableB.name
+select * from sql_query
+delete from phonebook where id=12;
+select * from phonecall where dt<'2014-11-10 12:47:46.0'
