@@ -1,0 +1,7 @@
+1 select * from city
+2 select * from phone
+3 select * from phonebook
+4 select * from street
+5 select * from phonecall
+6 select city.idcity, city.city_Name, street.street_name from city left outer join street on city.idcity = street.idcity order by city.idcity
+7 insert into street values (8, 5, 'Energetikov')
