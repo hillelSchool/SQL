@@ -7,12 +7,13 @@ import java.util.TreeMap;
 public class ConsoleOperation {
     public static String query = null;
     public static String menu = null;
+    private static String pathToQueryToDBFile = "src/Den/QueryToDB.txt";
 
     public static void selectMenuItem() {
         BufferedReader reader = null;
         try {
             printMenu();
-            System.out.print("Please, select the menu item: ");
+            System.out.print("Please, select the menu item: "); // оставил отдельной строкой для циклического меню
             reader = new BufferedReader(new InputStreamReader(System.in));
             menu = reader.readLine();
             processingMenu();
@@ -36,7 +37,7 @@ public class ConsoleOperation {
             doingTemplateQueryToDB();
         } else if (menu.trim().toLowerCase().equals("exit")) {
             System.out.println("Program close.");
-            System.exit(0);
+            System.exit(0);    // Заменить на флаг циклического меню
         } else {
             System.out.println("Wrong command!");
         }
@@ -50,7 +51,7 @@ public class ConsoleOperation {
 
     private static void doingTemplateQueryToDB() {
         System.out.println("query list:");
-        Map<Integer, String> mapQuery = readFile("src/Den/QueryToDB.txt");
+        Map<Integer, String> mapQuery = readFile(pathToQueryToDBFile);
         for (String s : mapQuery.values()) {
             System.out.println(s);
         }

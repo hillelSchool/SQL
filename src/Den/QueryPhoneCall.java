@@ -10,12 +10,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class QueryPhoneCall implements Query {
+public class QueryPhoneCall {
 
     public static String query = "select phonebook.id, phone.number, phonebook.first_name, phonecall.description, phone.type, phonecall.dt from phone, phonebook, phonecall where phone.phonebook_id = phonebook.id and phone.id = phonecall.phone_id order by phonebook.id"; // Запрос к БД
 
     private static int switchPrintBeforeAfter = 0;
-    private static Date deadLine = null;
+    private static Date deadLine = setDeadLine();
 
     public String getQuery() {
         return query;
@@ -74,17 +74,25 @@ public class QueryPhoneCall implements Query {
         return tempString;
     }
 
-    private static void setDeadLine() {
-        System.out.print("Введите время в формате hh:mm ");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            String line = reader.readLine();
-            if (!line.equals("")) {
-                deadLine = new SimpleDateFormat("HH:mm").parse(line);
+    private static Date setDeadLine() {
+        Date deadLine = null;
+        boolean flag = true;
+        while (flag) {
+            System.out.print("Введите время в формате hh:mm ");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                String line = reader.readLine();
+                if (!line.equals("")) {
+                    deadLine = new SimpleDateFormat("HH:mm").parse(line);
+                    flag = false;
+                }
+            } catch (ParseException e) {
+                System.err.println("Неверный формат времени!");
+            } catch (IOException e ){
+                System.out.println("Ошибка ввода данных");
+                e.printStackTrace();
             }
-        } catch (ParseException | IOException e) {
-            System.err.println("Error set time");
-            e.printStackTrace();
         }
+        return deadLine;
     }
 }

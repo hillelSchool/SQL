@@ -8,8 +8,10 @@ package Den;
 public class JDBCExampleByDen {
     public static void main(String[] args) {
 
-//          Сделать циклический запрос меню.
-            ConsoleOperation.selectMenuItem();    //Ввод запроса с консоли
-            PrintQueryObject.printQueryObject();  //Вывод результата в консоль
+//          Сделать циклический запрос меню. Если вывод запроса еще не завершен,
+// то происходит наложение: вывод попадает на запрос меню -> выход с ошибкой.
+        ConsoleOperation.selectMenuItem();      // Ввод запроса с консоли
+        PrintQueryObject.printQueryText();      // Вывод текста запроса
+        PrintQueryObject.printQueryObject();    // Вывод результата в консоль
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <jdbc>
+        <url>jdbc:mysql://217.146.253.33/tram_groundhog_day</url>
+        <driver>com.mysql.jdbc.Driver</driver>
+        <username>student</username>
+        <password>P@ssw0rd</password>
+    </jdbc>
+</config>
