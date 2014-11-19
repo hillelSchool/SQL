@@ -1,84 +1,72 @@
 package Den;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PrintQueryObject {
-    private static String query = ConsoleOperation.query;
+    private static List<String> columnsTitleForPrint = QueryObject.columnsTitle;
+    private static List<List<Object>> columnsTableForPrint = QueryObject.columnsTable;
+    private static List<Integer> columnsLength = getColumnsLength();
 
     public static void printQueryObject() {
-
-        printQueryUpdateText();
-
-        for (int i = 0; i < QueryObject.columnName.size(); i++) {
-            System.out.print(" " + QueryObject.columnName.get(i) + " ");
+        for (int i = 0; i < columnsTitleForPrint.size(); i++) {
+            String line = "%-" + columnsLength.get(i) + "s";
+            System.out.printf(line, formatTextInColumn(columnsTitleForPrint.get(i), i));
         }
         System.out.println();
-        for (int i = 0; i < QueryObject.columnTable.size(); i++) {
-            for (int j = 0; j < QueryObject.columnTable.get(i).size(); j++) {
-                System.out.print(QueryObject.columnTable.get(i).get(j) + " ");
+        for (int i = 0; i < columnsTableForPrint.size(); i++) {
+            for (int j = 0; j < columnsTableForPrint.get(i).size(); j++) {
+                String line = "%-" + columnsLength.get(j) + "s";
+                System.out.printf(line, formatTextInColumn(String.valueOf(columnsTableForPrint.get(i).get(j)), j));
             }
             System.out.println();
         }
     }
 
-    private static void printQueryUpdateText() {
-        if (!query.equals("")) {
-            String[] arrayQuery = query.split(" ");
-            for (int i = 0; i < arrayQuery.length; i++) {
-                switch (arrayQuery[i]) {
-                    case "select":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        System.out.println();
-                        break;
-                    case "from":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        System.out.println();
-                        break;
-                    case "where":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        System.out.println();
-                        break;
-                    case "order":
-                        arrayQuery[i + 1] = arrayQuery[i + 1].toUpperCase();
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        System.out.println();
-                        break;
-                    case "or":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "and":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "not":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "outer":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "left":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "join":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "on":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "insert":
-                        System.out.println();
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "into":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "values":
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
-                    case "delete":
-                        System.out.println();
-                        arrayQuery[i] = arrayQuery[i].toUpperCase();
-                        break;
+    private static List<Integer> getColumnsLength() {
+        List<Integer> lengthColumnTitle = new ArrayList<>();
+        List<Integer> lengthColumn = new ArrayList<>();
+        for (int i = 0; i < columnsTitleForPrint.size(); i++) {
+            lengthColumnTitle.add(columnsTitleForPrint.get(i).length());
+        }
+        for (int i = 0; i < columnsTableForPrint.size(); i++) {
+            for (int j = 0; j < columnsTableForPrint.get(i).size(); j++) {
+                if (i == 0) {
+                    if (columnsTableForPrint.get(i).get(j) == null) {
+                        lengthColumn.add(0);
+                    } else {
+                        lengthColumn.add(columnsTableForPrint.get(i).get(j).toString().length());
+                    }
+                } else {
+                    if ((columnsTableForPrint.get(i).get(j) != null)) {
+                        if (lengthColumn.get(j) < columnsTableForPrint.get(i).get(j).toString().length()) {
+                            lengthColumn.set(j, columnsTableForPrint.get(i).get(j).toString().length());
+                        }
+                    }
                 }
-                System.out.print(arrayQuery[i] + " ");
             }
         }
+
+        for (int i = 0; i < lengthColumnTitle.size(); i++) {
+            if (lengthColumnTitle.get(i) < lengthColumn.get(i)) {
+                lengthColumnTitle.set(i, lengthColumn.get(i));
+            }
+        }
+        return lengthColumnTitle;
+    }
+
+    private static String formatTextInColumn(String textInColumn, Integer i) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (textInColumn == null) {
+            textInColumn = "null";
+        }
+        stringBuilder.append(textInColumn);
+
+        for (int j = 0; j < columnsLength.get(i); j++) {
+            if (stringBuilder.length() <= columnsLength.get(i)) {
+                stringBuilder.append(" ");
+            }
+        }
+        return stringBuilder.toString();
     }
 }

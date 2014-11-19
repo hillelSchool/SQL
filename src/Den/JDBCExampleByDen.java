@@ -9,7 +9,9 @@ public class JDBCExampleByDen {
     public static void main(String[] args) {
 
 //          Сделать циклический запрос меню.
-            ConsoleOperation.selectMenuItem();    //Ввод запроса с консоли
-            PrintQueryObject.printQueryObject();  //Вывод результата в консоль
+//      Проблема: Если вывод запроса еще не завершен,
+//      то происходит наложение: вывод попадает на запрос меню -> неверный пункт меню -> выход с ошибкой.
+        ConsoleOperation.selectMenuItem();      // Ввод запроса с консоли
+        PrintQueryObject.printQueryObject();    // Вывод результата в консоль
     }
 }

@@ -12,17 +12,17 @@ public class ConnectAndCRUD {
     private static String url = ConnectionConfig.url;
     private static String driver = ConnectionConfig.driver;
 
-    protected static void connectAndCUDToDB() {
+    protected static void connectAndCRUDToDB() {
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
-            System.out.println("Driver not found!");
+            System.err.println("Driver not found!");
             e.printStackTrace();
         }
-        Connection c = null;
+        Connection connection = null;
         try {
-            c = DriverManager.getConnection(url, user, password);
-            Statement st = c.createStatement();
+            connection = DriverManager.getConnection(url, user, password);
+            Statement st = connection.createStatement();
 
             if (query.split(" ")[0].equals("select")) {
 
@@ -31,27 +31,27 @@ public class ConnectAndCRUD {
 
                 int count = rsMetaData.getColumnCount();
                 for (int i = 1; i <= count; i++) {
-                    QueryObject.columnName.add(rsMetaData.getColumnName(i));
+                    QueryObject.columnsTitle.add(rsMetaData.getColumnName(i));
                 }
                 while (rs.next()) {
                     List<Object> list = new ArrayList<>();
                     for (int i = 1; i <= count; i++) {
                         list.add(rs.getObject(i));
                     }
-                    QueryObject.columnTable.add(list);
+                    QueryObject.columnsTable.add(list);
                 }
             } else {
                 st.execute(query);
             }
         } catch (SQLException e) {
-            System.out.println("Error interaction with DB!");
+            System.err.println("Error interaction with DB!");
             e.printStackTrace();
         } finally {
             try {
-                if (c != null)
-                    c.close();
+                if (connection != null)
+                    connection.close();
             } catch (SQLException e) {
-                System.out.println("Error close connection!");
+                System.err.println("Error close connection!");
                 e.printStackTrace();
             }
         }
