@@ -5,13 +5,13 @@ package Den;
  * приведёт к половому бессилию и неизлечимым заболеваниям!!!
  */
 
+import java.sql.Connection;
+
 public class JDBCExampleByDen {
     public static void main(String[] args) {
 
-//          Сделать циклический запрос меню.
-//      Проблема: Если вывод запроса еще не завершен,
-//      то происходит наложение: вывод попадает на запрос меню -> неверный пункт меню -> выход с ошибкой.
+        Connection connection = ConnectionToDB.connectToDB();
         ConsoleOperation.selectMenuItem();      // Ввод запроса с консоли
-        PrintQueryObject.printQueryObject();    // Вывод результата в консоль
+        ConnectionToDB.disConnectFromDB(connection);
     }
 }

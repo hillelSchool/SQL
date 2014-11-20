@@ -3,6 +3,7 @@ package Den;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -10,12 +11,27 @@ import java.io.IOException;
 
 public class ConnectionConfig {
 
-    public static String user;
-    public static String password;
-    public static String url;
-    public static String driver;
-
+    private static String user;
+    private static String password;
+    private static String url;
+    private static String driver;
     private static String pathToConnectConfigFile = "src/Den/config.xml";
+
+    public static String getUser() {
+        return user;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static String getUrl() {
+        return url;
+    }
+
+    public static String getDriver() {
+        return driver;
+    }
 
     static {
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -33,8 +49,7 @@ public class ConnectionConfig {
             boolean aUsername = false;
             boolean aPassword = false;
 
-            public void startElement(String uri, String localName, String qName,
-                                     Attributes attributes){
+            public void startElement(String uri, String localName, String qName, Attributes attributes) {
 
                 if (qName.equalsIgnoreCase("url")) aUrl = true;
                 if (qName.equalsIgnoreCase("driver")) aDriver = true;
@@ -42,7 +57,7 @@ public class ConnectionConfig {
                 if (qName.equalsIgnoreCase("password")) aPassword = true;
             }
 
-            public void characters(char ch[], int start, int length){
+            public void characters(char ch[], int start, int length) {
 
                 if (aDriver) {
                     driver = new String(ch, start, length);
@@ -61,7 +76,6 @@ public class ConnectionConfig {
                     aPassword = false;
                 }
             }
-
         };
         try {
             if (saxParser != null) {
@@ -70,6 +84,5 @@ public class ConnectionConfig {
         } catch (SAXException | IOException e) {
             e.printStackTrace();
         }
-
     }
 }

@@ -2,31 +2,20 @@ package Den;
 
 import java.io.*;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 public class ConsoleOperation {
     public static String query = null;
     public static String menu = null;
     private static String pathToQueryToDBFile = "src/Den/QueryToDB.txt";
+    private static boolean exitFromProgram = false;
 
     public static void selectMenuItem() {
-        BufferedReader reader = null;
-        try {
+        while (!exitFromProgram) {
             printMenu();
-            System.out.print("Please, select the menu item: "); // оставил отдельной строкой для циклического меню
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            menu = reader.readLine();
+            menu = readFromConsole();
             processingMenu();
-        } catch (IOException e) {
-            System.out.println("Error input to console");
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -37,7 +26,7 @@ public class ConsoleOperation {
             doingTemplateQueryToDB();
         } else if (menu.trim().toLowerCase().equals("exit")) {
             System.out.println("Program close.");
-            System.exit(0);    // Заменить на флаг циклического меню
+            exitFromProgram = true;
         } else {
             System.out.println("Wrong command!");
         }
@@ -47,7 +36,7 @@ public class ConsoleOperation {
         System.out.print("Write your query to DB: ");
         query = readFromConsole().trim();
         printQueryText(); //вывод текста запроса в консоль до отсылки самого запроса
-        ConnectAndCRUD.connectAndCRUDToDB();
+        PrintQueryObject.printQueryObject(QueryToDB.queryToDB(ConnectionToDB.getConnection(), query));
     }
 
     private static void doingTemplateQueryToDB() {
@@ -61,34 +50,21 @@ public class ConsoleOperation {
         System.out.print("Select number of query: ");
         int selectMenuItem = Integer.parseInt(readFromConsole().trim()) - 1;
         query = mapQuery.get(selectMenuItem).trim();
-        printQueryText(); //вывод текста запроса в консоль до отсылки самого запроса
-        ConnectAndCRUD.connectAndCRUDToDB();
+        printQueryText();
+        PrintQueryObject.printQueryObject(QueryToDB.queryToDB(ConnectionToDB.getConnection(), query));
     }
 
     private static void printMenu() {
         System.out.printf("%-29s %s\n", "for SQL Query write:", "1");
         System.out.printf("%-29s %s\n", "for SQL Template Query write:", "2");
         System.out.printf("%-29s %s\n", "exit from program write:", "exit");
+        System.out.print("Please, select the menu item: ");
     }
 
     private static String readFromConsole() {
-        String lineConsole = null;
-        BufferedReader reader = null;
-
-        try {
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            lineConsole = reader.readLine();
-        } catch (IOException e) {
-            System.out.println("Error input to console");
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        String lineConsole;
+        Scanner scanner = new Scanner(System.in);
+        lineConsole = scanner.nextLine();
         return lineConsole;
     }
 
@@ -123,7 +99,7 @@ public class ConsoleOperation {
 
     private static void printQueryText() {
         StringBuilder stringBuilder = new StringBuilder();
-        if (!query.equals("")) {
+        if (query.length() > 70) {
             String[] arrayQuery = query.split(" ");
             for (String anArrayQuery : arrayQuery) {
                 switch (anArrayQuery) {
@@ -160,6 +136,8 @@ public class ConsoleOperation {
                 }
                 stringBuilder.append(anArrayQuery).append(" ");
             }
+        } else if (!query.equals("")) {
+            stringBuilder.append("\n").append(query);
         }
         stringBuilder.append("\n");
         System.out.println(stringBuilder);
