@@ -25,7 +25,6 @@ public class ConsoleOperation {
         } else if (menu.trim().equals("2")) {
             doingTemplateQueryToDB();
         } else if (menu.trim().toLowerCase().equals("exit")) {
-            System.out.println("Program close.");
             exitFromProgram = true;
         } else {
             System.out.println("Wrong command!");
@@ -40,6 +39,8 @@ public class ConsoleOperation {
     }
 
     private static void doingTemplateQueryToDB() {
+        boolean flag = false;
+
         System.out.println("query list:");
         Map<Integer, String> mapQuery = readFile(pathToQueryToDBFile);
         int count = 1;
@@ -47,9 +48,16 @@ public class ConsoleOperation {
             System.out.println(count + " " + s);
             count++;
         }
-        System.out.print("Select number of query: ");
-        int selectMenuItem = Integer.parseInt(readFromConsole().trim()) - 1;
-        query = mapQuery.get(selectMenuItem).trim();
+        while (!flag) {
+            System.out.print("Select number of query: ");
+            try {
+                int selectMenuItem = Integer.parseInt(readFromConsole().trim()) - 1;
+                query = mapQuery.get(selectMenuItem).trim();
+                flag = true;
+            } catch (NullPointerException | NumberFormatException e) {
+                System.out.println("Incorrect choice");
+            }
+        }
         printQueryText();
         PrintQueryObject.printQueryObject(QueryToDB.queryToDB(ConnectionToDB.getConnection(), query));
     }

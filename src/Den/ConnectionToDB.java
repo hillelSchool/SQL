@@ -30,6 +30,7 @@ public class ConnectionToDB {
             System.out.println("Error connection to DB!");
             e.printStackTrace();
         }
+        System.out.println("Connection was created.\n");
         return connection;
     }
 
@@ -37,6 +38,7 @@ public class ConnectionToDB {
         try {
             if (connection != null)
                 connection.close();
+            System.out.println("Connection was closed.");
         } catch (SQLException e) {
             System.err.println("Error disconnect from DB!");
             e.printStackTrace();
