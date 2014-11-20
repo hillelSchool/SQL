@@ -1,3 +1,6 @@
+show databases
+show tables
+describe city
 select * from city
 select * from phone
 select * from phonebook
@@ -10,3 +13,5 @@ select * from tableA right join tableB on tableA.name = tableB.name
 select * from sql_query
 delete from phonebook where id=12;
 select * from phonecall where dt<'2014-11-10 12:47:46.0'
+insert into street values (9, 1, 'Segedskaya')
+insert into street values (10, 6, 'Red Square')

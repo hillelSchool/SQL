@@ -1,6 +1,9 @@
 package Den;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -27,7 +30,7 @@ public class ConsoleOperation {
         } else if (menu.trim().toLowerCase().equals("exit")) {
             exitFromProgram = true;
         } else {
-            System.out.println("Wrong command!");
+            System.out.println("Incorrect select menu item!");
         }
     }
 
@@ -55,7 +58,7 @@ public class ConsoleOperation {
                 query = mapQuery.get(selectMenuItem).trim();
                 flag = true;
             } catch (NullPointerException | NumberFormatException e) {
-                System.out.println("Incorrect choice");
+                System.out.println("Incorrect select template number!");
             }
         }
         printQueryText();
@@ -147,7 +150,6 @@ public class ConsoleOperation {
         } else if (!query.equals("")) {
             stringBuilder.append("\n").append(query);
         }
-        stringBuilder.append("\n");
         System.out.println(stringBuilder);
     }
 }

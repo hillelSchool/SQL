@@ -8,13 +8,16 @@ public class QueryToDB {
 
     protected static QueryObject queryToDB(Connection connection, String query){
 
-        QueryObject queryObject = new QueryObject();
-        List<String> columnsTitle = new ArrayList<>();
-        List<List<Object>> columnsTable = new ArrayList<>();
-
-        try{
+        QueryObject queryObject = null;
+        try {
             Statement st = connection.createStatement();
-            if (query.split(" ")[0].equals("select")) {
+
+            if (query.split(" ")[0].equals("select") || query.split(" ")[0].equals("show") || query.split(" ")[0].equals("describe")) {
+
+                queryObject = new QueryObject();
+
+                List<String> columnsTitle = new ArrayList<>();
+                List<List<Object>> columnsTable = new ArrayList<>();
 
                 ResultSet rs = st.executeQuery(query);
                 ResultSetMetaData rsMetaData = rs.getMetaData();
@@ -30,17 +33,16 @@ public class QueryToDB {
                     }
                     columnsTable.add(list);
                 }
+                queryObject.setColumnsTitle(columnsTitle);
+                queryObject.setColumnsTable(columnsTable);
             } else {
                 st.execute(query);
             }
-        }catch (SQLException e){
-            System.err.println("Error interaction with DB!");
-            e.printStackTrace();
+        } catch (SQLSyntaxErrorException e) {
+            System.out.println("SQL Syntax Error\n");
+        } catch (SQLException e) {
+            System.out.println("SQL Error\n");
         }
-
-        queryObject.setColumnsTitle(columnsTitle);
-        queryObject.setColumnsTable(columnsTable);
-
         return queryObject;
     }
 }
