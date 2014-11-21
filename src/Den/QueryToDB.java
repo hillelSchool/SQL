@@ -13,8 +13,10 @@ public class QueryToDB {
             Statement st = connection.createStatement();
 
             if (query.split(" ")[0].equals("select") || query.split(" ")[0].equals("show") || query.split(" ")[0].equals("describe")) {
-
-                queryObject = new QueryObject();
+            
+            //query.split(" ")[0].equals("select") ---->  query.startWith("select")
+               
+               queryObject = new QueryObject();
 
                 List<String> columnsTitle = new ArrayList<>();
                 List<List<Object>> columnsTable = new ArrayList<>();
