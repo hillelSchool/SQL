@@ -67,7 +67,6 @@ public class CopyLog {
                         strOut = sCurrentLine.replaceAll(ipAddress, strRepl);
                         System.out.println(strOut);
                     }
-                   //bwInput.write(strOut);
                 }
 
             }
