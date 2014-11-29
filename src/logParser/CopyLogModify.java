@@ -41,9 +41,9 @@ public class CopyLogModify {
 
 
             String ipPattern = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                               "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                               "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                               "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
 
             Pattern pt = Pattern.compile(ipPattern);
 
@@ -64,7 +64,7 @@ public class CopyLogModify {
                     bwInput.write(sCurrentLine + "\n");
                 }
             }
-        bwInput.close();
+            bwInput.close();
             bwInputLog.close();
             br.close();
         }

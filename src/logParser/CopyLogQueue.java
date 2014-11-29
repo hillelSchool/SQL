@@ -1,7 +1,5 @@
 package logParser;
 
-import com.sun.corba.se.spi.orbutil.threadpool.ThreadPool;
-
 import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,9 +14,10 @@ public class CopyLogQueue {
 
         BufferedReader br = null;
 
+
         try {
             String sCurrentLine;
-            int lineCount;
+            int lineCount = 0;
             Queue<String> q = new LinkedList<String>();
             Map<String, String> mapIP = new HashMap<String, String>();
             DateStamp ds = new DateStamp();
@@ -51,34 +50,22 @@ public class CopyLogQueue {
                                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
 
             Pattern pt = Pattern.compile(ipPattern);
-            lineCount = 0;
-            // Запись в очередь сток из файла
+            // change each line in text
             while ((sCurrentLine = br.readLine()) != null) {
-                // Добавление в очередь объекта
-                lineCount++;
-                q.add(sCurrentLine);
+                   lineCount++;
                 Matcher mt = pt.matcher(sCurrentLine);
                 if (mt.find()) {
                     String ipAddress = mt.group(1) + "." + mt.group(2) + "." + mt.group(3) + "." + mt.group(4);
                     mapIP.put(ipAddress, null);
                 }
-                //bwInputLog.write(lineCount + "  " + sCurrentLine + "\n");
-            }
 
-            for (Map.Entry<String, String> entry : mapIP.entrySet()) {
-                mapIP.put(entry.getKey(), IpAddressCreate.ipAddressGenerator(entry.getKey()));
-            }
-
-            lineCount = 0;
-            // Считывание из очереди строк и запись в файл
-            while( !q.isEmpty() ){
-                lineCount++;
-                // Забираем и удаляем из очереди объект
-                String str = q.poll();
+                for (Map.Entry<String, String> entry : mapIP.entrySet()) {
+                    mapIP.put(entry.getKey(), IpAddressCreate.ipAddressGenerator(entry.getKey()));
+                }
 
                 for (Map.Entry<String, String> entry : mapIP.entrySet()){
-                    if (str.matches("(.*)" + entry.getKey() + "(.*)" )) {
-                        str = str.replaceAll(entry.getKey(), entry.getValue());
+                    if (sCurrentLine.matches("(.*)" + entry.getKey() + "(.*)" )) {
+                        sCurrentLine = sCurrentLine.replaceAll(entry.getKey(), entry.getValue());
 
                     } else continue;
 
@@ -86,10 +73,8 @@ public class CopyLogQueue {
                             " ----> " + entry.getValue() + "\n");
 
                 }
-                bwInput.write(str + "\n");
-        }
-
-
+                bwInput.write(sCurrentLine + "\n");
+            }
             br.close();
             bwInput.close();
             bwInputLog.close();
@@ -97,7 +82,7 @@ public class CopyLogQueue {
 
 
         catch (FileNotFoundException e) { e.printStackTrace(); }
-          catch (IOException e)           { e.printStackTrace();
+        catch (IOException e)           { e.printStackTrace();
         } finally {
             try {
                 if (br != null) br.close();
