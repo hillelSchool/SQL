@@ -92,6 +92,7 @@ public class CopyLogQueue {
 
             br.close();
             bwInput.close();
+            bwInputLog.close();
         }
 
 
