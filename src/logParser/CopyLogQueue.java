@@ -45,14 +45,14 @@ public class CopyLogQueue {
             }
 
             String ipPattern = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                               "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                               "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                               "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
 
             Pattern pt = Pattern.compile(ipPattern);
             // change each line in text
             while ((sCurrentLine = br.readLine()) != null) {
-                   lineCount++;
+                lineCount++;
                 Matcher mt = pt.matcher(sCurrentLine);
                 if (mt.find()) {
                     String ipAddress = mt.group(1) + "." + mt.group(2) + "." + mt.group(3) + "." + mt.group(4);
