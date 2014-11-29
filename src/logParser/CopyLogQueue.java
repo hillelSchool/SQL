@@ -2,9 +2,7 @@ package logParser;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,12 +11,9 @@ public class CopyLogQueue {
     public static void main(String[] args) throws InterruptedException {
 
         BufferedReader br = null;
-
-
         try {
             String sCurrentLine;
             int lineCount = 0;
-            Queue<String> q = new LinkedList<String>();
             Map<String, String> mapIP = new HashMap<String, String>();
             DateStamp ds = new DateStamp();
 
