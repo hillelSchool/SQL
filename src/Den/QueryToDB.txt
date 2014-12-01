@@ -1,6 +1,6 @@
 show databases
 show tables
-describe city
+describe phonebook
 select * from city
 select * from phone
 select * from phonebook
