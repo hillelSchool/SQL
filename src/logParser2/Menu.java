@@ -3,12 +3,6 @@ package logParser2;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-/**
- * IPv4 - "((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)"
- * IPv6 - "(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))");
- * Domain - "(([a-z0-9]+\\.){1,}((com)|(edu)|(gov)|(mil)|(net)|(org)|(int)|(ua)))");
- */
-
 public class Menu {
 
     public static boolean exitFromProgram = false;
@@ -18,6 +12,7 @@ public class Menu {
             printMenuBanner();
             String lineConsole = readFromConsole().toLowerCase();
             if (lineConsole.equals("1")) {
+                //read data from origin file to listData
                 List<String> listDataFromFile = null;
                 boolean fileExist = false;
                 while (!fileExist) {
@@ -30,14 +25,39 @@ public class Menu {
                         System.out.println("Wrong path to file!");
                     }
                 }
-                String regex = "((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)";
-                Set<String> setDataForReplacement = DataProcessing.FindDataForReplacement(listDataFromFile, regex);
-                Set<String> setRandomData = DataProcessing.getRandomIPv4(setDataForReplacement);
+                //read regex from file to list
+                List<String> listRegex = new ArrayList<>();
+                fileExist = false;
+                while (!fileExist) {
+                    try {
+//                        System.out.print("path to regex file: ");
+//                        String pathToRegexFile = readFromConsole();
+                        String pathToRegexFile = "./src/logParser2/regex";
+                        listRegex = OperationWithFile.readFromFile(pathToRegexFile);
+                        fileExist = true;
+                    } catch (FileNotFoundException e) {
+                        System.out.println("Wrong path to file!");
+                    }
+                }
+                //print to console list regex from file
+                int count = 0;
+                for (String s : listRegex) {
+                    System.out.println(++count + " " + s);
+                }
+                //select the type of regex
+                System.out.print("Input number regex: ");
+                String[] regex = listRegex.get(Integer.parseInt(Menu.readFromConsole()) - 1).split(" = ");
+                //search data from listData matches the regex
+                Set<String> setDataForReplacement = DataProcessing.FindDataForReplacement(listDataFromFile, regex[1]);
+                //Generate a random list of conformity according to the regex
+                Set<String> setRandomData = ReplacementMethods.getRandomMethod(regex[0], setDataForReplacement);
+                //Generate a mapReplacement of conformity according to the regex
                 TreeMap<String, String> mapReplacement = DataProcessing.getMapReplacement(setDataForReplacement, setRandomData);
+                //print to console mapReplacement
                 for (Map.Entry<String, String> entry : mapReplacement.entrySet()) {
                     System.out.println(entry.getKey() + " " + entry.getValue());
                 }
-
+                //write mapReplacement to file
                 System.out.print("path to mapReplacement file: ");
                 String pathToMapReplacementFile = Menu.readFromConsole();
                 List<String> listReplacement = new ArrayList<>();
@@ -45,13 +65,14 @@ public class Menu {
                     listReplacement.add(entry.getKey() + " " + entry.getValue());
                 }
                 OperationWithFile.writeToFile(pathToMapReplacementFile, listReplacement);
-
+                //transformation and write list data to destination file
                 System.out.print("path to destination file: ");
                 String pathToDestinationFile = Menu.readFromConsole();
                 List<String> listModifiedData = DataProcessing.replacementListDataByMapReplacement(listDataFromFile, mapReplacement);
                 OperationWithFile.writeToFile(pathToDestinationFile, listModifiedData);
 
             } else if (lineConsole.equals("2")) {
+                //read data from origin file to listData
                 List<String> listDataFromFile = null;
                 boolean fileExist = false;
                 while (!fileExist) {
@@ -64,28 +85,28 @@ public class Menu {
                         System.out.println("Wrong path to file!");
                     }
                 }
-
+                //read data from mapReplacement file to listReplacement
                 List<String> listDataFromReplacementFile = null;
                 fileExist = false;
                 while (!fileExist) {
                     try {
-                System.out.print("path to mapReplacement file: ");
-                String pathToReplacementFile = readFromConsole();
-                listDataFromReplacementFile = OperationWithFile.readFromFile(pathToReplacementFile);
+                        System.out.print("path to mapReplacement file: ");
+                        String pathToReplacementFile = readFromConsole();
+                        listDataFromReplacementFile = OperationWithFile.readFromFile(pathToReplacementFile);
                         fileExist = true;
                     } catch (FileNotFoundException e) {
                         System.out.println("Wrong path to file!");
                     }
                 }
-
+                //transformation listReplacement to mapReplacement
                 Map<String, String> mapReplacement = new HashMap<>();
                 for (String s : listDataFromReplacementFile) {
                     String[] str = s.split(" ");
                     mapReplacement.put(str[1], str[0]);
                 }
-
+                //transformation ...
                 List<String> listModifiedData = DataProcessing.replacementListDataByMapReplacement(listDataFromFile, mapReplacement);
-
+                //...and write list data to destination file
                 System.out.print("path to destination file: ");
                 String pathToDestinationFile = Menu.readFromConsole();
                 OperationWithFile.writeToFile(pathToDestinationFile, listModifiedData);
