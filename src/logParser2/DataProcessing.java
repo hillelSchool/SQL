@@ -9,9 +9,24 @@ import java.util.regex.Pattern;
 
 public class DataProcessing {
 
-    public static void encrypt() {
+    public List<String> reader(){
+        System.out.print("path to source file: ");
+       List<String> listStringsFromFile = new OperationWithFile().readFromSourceFile();
+        if (listStringsFromFile != null) {
+            return listStringsFromFile;
+        }
+        else{
+            System.out.println("file path is wrong | try again or type 'no' for exit");
+            reader();
+        }
+        return null;
+    }
 
-        List<String> listStringsFromFile = OperationWithFile.readFromSourceFile();
+
+
+    public void encrypt() {
+        List<String> listStringsFromFile= new DataProcessing().reader();
+
 
         List<String> listIPv4 = new ArrayList<>();
         List<String> listIPv6 = new ArrayList<>();
@@ -59,9 +74,9 @@ public class DataProcessing {
         OperationWithFile.writeToLogFile(mapForLog);
     }
 
-    public static void decrypt() {
+    public void decrypt() {
         //читаем файл для изменения
-        List<String> listFromFile = OperationWithFile.readFromSourceFile();
+        List<String> listFromFile = new  OperationWithFile().readFromSourceFile();
         //читаем таблицу соответствия из лога
         Map<String, String> map = OperationWithFile.readFromLogFile();
         //замена данных согласно таблицы соответсвия
@@ -76,7 +91,7 @@ public class DataProcessing {
         OperationWithFile.writeToSourceFile(listFromFile);
     }
 
-    private static void matchDataFromLineSourceFile(List<String> listDataFromFile, String line, String regex) {
+    private void matchDataFromLineSourceFile(List<String> listDataFromFile, String line, String regex) {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(line);
         while (m.find()) {
@@ -87,7 +102,7 @@ public class DataProcessing {
         }
     }
 
-    public static String getRandomIPv4(List<String> list, Map<String, String> mapForLog) {
+    public String getRandomIPv4(List<String> list, Map<String, String> mapForLog) {
 
         String randomIPv4;
         int b1 = (int) ((Math.random()) * 246 + 10);
@@ -102,7 +117,7 @@ public class DataProcessing {
         return randomIPv4;
     }
 
-    public static String getRandomIPv6(List<String> list, Map<String, String> mapForLog) {
+    public String getRandomIPv6(List<String> list, Map<String, String> mapForLog) {
 
         String[] ip = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
         String randomIPv6 = "";
@@ -120,7 +135,7 @@ public class DataProcessing {
         return randomIPv6;
     }
 
-    public static String getRandomDomain(List<String> list, Map<String, String> mapForLog) {
+    public String getRandomDomain(List<String> list, Map<String, String> mapForLog) {
 
         String[] domain = new String[27];
         char ch;

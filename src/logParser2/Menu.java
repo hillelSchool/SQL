@@ -4,30 +4,33 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static boolean exitFromProgram = false;
+   // public Menu menu = new Menu();
 
-    public static void menuOperation(){
+    public void menuOperation(){
+        boolean exitFromProgram = false;
         while (!exitFromProgram) {
             printMenuBanner();
             String lineConsole = readFromConsole().toLowerCase();
-            if (lineConsole.equals("1")) {
-                DataProcessing.encrypt();
-            } else if (lineConsole.equals("2")){
-                DataProcessing.decrypt();
-            }else if(lineConsole.equals("exit")){
+            if ("1".equals(lineConsole)) {
+               new  DataProcessing().encrypt();
+            } else if ("2".equals(lineConsole)){
+                new DataProcessing().decrypt();
+            }else if("exit".equals(lineConsole)){
                 exitFromProgram = true;
-            }else{
-                System.out.println("Incorrect command!");
+                System.out.println("Program ended correct.");
+            } else {
+                System.out.println("Incorrect command.");
+                System.out.println("Please try again.");
             }
         }
     }
 
-    private static void printMenuBanner(){
+    private void printMenuBanner(){
         System.out.println("Encrypt - 1 | Decrypt - 2 | Exit - exit");
         System.out.print("Select menu item: ");
     }
 
-    public static String readFromConsole() {
+    public String readFromConsole() {
         Scanner scanConsole = new Scanner(System.in);
         return scanConsole.nextLine();
     }

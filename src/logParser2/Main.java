@@ -7,6 +7,6 @@ package logParser2;
  */
 public class Main {
     public static void main(String[] args) {
-        Menu.menuOperation();
+        new Menu().menuOperation();
     }
 }

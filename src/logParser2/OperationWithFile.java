@@ -6,28 +6,38 @@ import java.util.*;
 
 public class OperationWithFile {
 
-    protected static List<String> readFromSourceFile() {
-        System.out.print("path to source file: ");
-        String pathToFile = Menu.readFromConsole();
+    List<String> readFromSourceFile() {
+        // to while
         List<String> listLineFromFile = new ArrayList<String>();
-        BufferedReader readFromFile = null;
-        try {
-            readFromFile = new BufferedReader(new FileReader(pathToFile));
-            while (readFromFile.ready()) {
-                listLineFromFile.add(readFromFile.readLine());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+        BufferedReader readFromFile;
+            String consoleRead = new Menu().readFromConsole();
             try {
-                if (readFromFile != null) {
-                    readFromFile.close();
+                readFromFile = new BufferedReader(new FileReader(consoleRead));
+                if (readFromFile.ready()) {
+                    while (readFromFile.ready()) {
+                        listLineFromFile.add(readFromFile.readLine());
+                    }
                     System.out.println("File was read");
+                    try {
+                        readFromFile.close();
+                    } catch (IOException e) {
+                        System.out.println("file does not close, close it yourself, if you want. That's java say:" + e);
+                    }
+                }  else {
+                    listLineFromFile = null;
+                    //System.out.println("file does not exist try again or for end trying type 'no'");
                 }
+
             } catch (IOException e) {
-                e.printStackTrace();
+                if ("no".equals(consoleRead)) {
+                    System.exit(100500);
+                }else {
+                    listLineFromFile = null;
+                   // System.out.println("error was occured: " + e);
+                   // System.out.println("please try again, for end trying type 'no'");
+                }
             }
-        }
+
         return listLineFromFile;
     }
 
@@ -35,7 +45,7 @@ public class OperationWithFile {
         BufferedWriter writeToFile = null;
         try {
             System.out.print("path to new file: ");
-            writeToFile = new BufferedWriter(new FileWriter(Menu.readFromConsole()));
+            writeToFile = new BufferedWriter(new FileWriter(new Menu().readFromConsole()));
             for (int i = 0; i < list.size(); i++) {
                 if (i != list.size() - 1) {
                     writeToFile.write(list.get(i) + "\n");
@@ -63,7 +73,7 @@ public class OperationWithFile {
         String pathToFile = null;
         try {
             System.out.print("path to log file: ");
-            pathToFile = Menu.readFromConsole();
+            pathToFile = new  Menu().readFromConsole();
             readFromLog = new BufferedReader(new FileReader(pathToFile));
             while (readFromLog.ready()) {
                 String[] line = readFromLog.readLine().split(" ");
