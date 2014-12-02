@@ -1,114 +1,78 @@
 package logParser2;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OperationWithFile {
 
-    protected static List<String> readFromSourceFile() {
-        System.out.print("path to source file: ");
-        String pathToFile = Menu.readFromConsole();
-        List<String> listLineFromFile = new ArrayList<String>();
-        BufferedReader readFromFile = null;
-        try {
-            readFromFile = new BufferedReader(new FileReader(pathToFile));
-            while (readFromFile.ready()) {
-                listLineFromFile.add(readFromFile.readLine());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+    protected static List<String> readFromFile(String pathToFile) throws FileNotFoundException {
+        List<String> listDataFromFile = new ArrayList<>();
+        boolean stopReadingFile = false;
+
+        BufferedReader readFromFile = new BufferedReader(new FileReader(pathToFile));
+        while (!stopReadingFile) {
             try {
-                if (readFromFile != null) {
-                    readFromFile.close();
-                    System.out.println("File was read");
+                while (readFromFile.ready()) {
+                    listDataFromFile.add(readFromFile.readLine());
                 }
+                stopReadingFile = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Error read data!");
+                boolean flag = false;
+                while (!flag) {
+                    System.out.print("Try again? Y/n: ");
+                    String consoleLine = Menu.readFromConsole().toLowerCase();
+                    if (consoleLine.equals("n")) {
+                        stopReadingFile = true;
+                    } else if (consoleLine.equals("y")) {
+                        flag = true;
+                    } else {
+                        System.out.println("Menu item was incorrectly selected!");
+                    }
+                }
             }
         }
-        return listLineFromFile;
-    }
-
-    protected static void writeToSourceFile(List<String> list) {
-        BufferedWriter writeToFile = null;
+        System.out.println("Data was read");
         try {
-            System.out.print("path to new file: ");
-            writeToFile = new BufferedWriter(new FileWriter(Menu.readFromConsole()));
-            for (int i = 0; i < list.size(); i++) {
-                if (i != list.size() - 1) {
-                    writeToFile.write(list.get(i) + "\n");
-                } else {
-                    writeToFile.write(list.get(i));
-                }
-            }
+            readFromFile.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (writeToFile != null) {
-                    writeToFile.close();
-                    System.out.println("File changed!");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            //NOD
         }
+        return listDataFromFile;
     }
 
-    protected static Map<String, String> readFromLogFile() {
-        Map<String,String> map = new HashMap<>();
-        BufferedReader readFromLog = null;
-        String pathToFile = null;
-        try {
-            System.out.print("path to log file: ");
-            pathToFile = Menu.readFromConsole();
-            readFromLog = new BufferedReader(new FileReader(pathToFile));
-            while (readFromLog.ready()) {
-                String[] line = readFromLog.readLine().split(" ");
-                map.put(line[0], line[1]);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+    protected static void writeToFile(String pathToFile, List<String> list) {
+        BufferedWriter writeToFile;
+        boolean stopWriteFile = false;
+        while (!stopWriteFile) {
             try {
-                if (readFromLog != null) {
-                    readFromLog.close();
-                    System.out.println("File " + pathToFile + " was read");
+                writeToFile = new BufferedWriter(new FileWriter(pathToFile));
+                for (int i = 0; i < list.size(); i++) {
+                    if (i != list.size() - 1) {
+                        writeToFile.write(list.get(i) + "\n");
+                    } else {
+                        writeToFile.write(list.get(i));
+                    }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return map;
-    }
+                writeToFile.close();
+                System.out.println("The file is recorded!");
+                stopWriteFile = true;
 
-    protected static void writeToLogFile(Map<String, String> map) {
-        BufferedWriter writeToFile = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat(".yyyy.MM.dd.kk.mm");
-        String pathToLogFile = "./log" + dateFormat.format(new Date()) + ".txt";
-        try {
-            writeToFile = new BufferedWriter(new FileWriter(pathToLogFile));
-            int count = 0;
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-                if (count != map.size() - 1) {
-                    writeToFile.write(entry.getKey() + " " + entry.getValue() + "\n");
-                    count++;
-                } else {
-                    writeToFile.write(entry.getKey() + " " + entry.getValue());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (writeToFile != null) {
-                    writeToFile.close();
-                    System.out.println("File " + pathToLogFile + " was created.");
-                }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Error write data!");
+                boolean flag = false;
+                while (!flag) {
+                    System.out.print("Try again? Y/n: ");
+                    String consoleLine = Menu.readFromConsole().toLowerCase();
+                    if (consoleLine.equals("n")) {
+                        stopWriteFile = true;
+                    } else if (consoleLine.equals("y")) {
+                        flag = true;
+                    } else {
+                        System.out.println("Menu item was incorrectly selected!");
+                    }
+                }
             }
         }
     }
