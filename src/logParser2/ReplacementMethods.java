@@ -13,6 +13,8 @@ public class ReplacementMethods {
             set = getRandomIPv6(setData);
         } else if (method.equals("Domain")) {
             set = getRandomDomain(setData);
+        } else if (method.equals("Email")){
+            set = getRandomEmail(setData);
         }
         return set;
     }
@@ -61,7 +63,7 @@ public class ReplacementMethods {
 
     public static Set<String> getRandomDomain(Set<String> setData) {
         Set<String> setRandomData = new HashSet<>();
-        String[] domain = new String[27];
+        String[] domain = new String[26];
         char ch;
         int count = 0;
         for (ch = 'a'; ch <= 'z'; ch++) {
@@ -87,6 +89,22 @@ public class ReplacementMethods {
             } while (setData.contains(randomDomain) && setRandomData.contains(randomDomain));
             setRandomData.add(randomDomain);
         }
+        return setRandomData;
+    }
+
+    public static Set<String> getRandomEmail(Set<String> setData) {
+        /**
+         * mkyong+100@gmail.com //ПРИ replaceAll данного email он не меняется, т.к. replaceAll воспринимает "+" как соединение строк!!!!!
+         */
+        Set<String> setRandomData = new HashSet<>();
+
+        int count = 1;
+        String emailRandom = "email_";
+        for (int i = 0; i < setData.size(); i++) {
+            setRandomData.add(emailRandom + count);
+            count++;
+        }
+
         return setRandomData;
     }
 }

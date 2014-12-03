@@ -2,6 +2,10 @@
 google.com.ua https://github.com
 
 https://www.facebook.com/
+google@com.ua
+mkyong@yahoo.com mkyong.100@mkyong.com.au,
+mkyong-100@yahoo-test.com
+ mkyong+100@gmail.com //ПРИ replaceAll данного email он не меняется, т.к. replaceAll воспринимает "+" как соединение строк!!!!!
 
 <execution jobId="MaxDb by Shell" destinationid="f2241cc0a0bc48102b62b0b9d6a73f4f" max_store_sent_results="2147483647">
 	<destination>

@@ -104,7 +104,7 @@ public class Menu {
                     String[] str = s.split(" ");
                     mapReplacement.put(str[1], str[0]);
                 }
-                //transformation ...
+                //replacement listData by mapReplacement ...
                 List<String> listModifiedData = DataProcessing.replacementListDataByMapReplacement(listDataFromFile, mapReplacement);
                 //...and write list data to destination file
                 System.out.print("path to destination file: ");

@@ -25,7 +25,13 @@ public class DataProcessing {
         for (int i = 0; i < listData.size(); i++) {
             for (Map.Entry<String, String> entry : mapReplacement.entrySet()) {
                 if (listData.get(i).contains(entry.getKey())) {
-                    listData.set(i, listData.get(i).replaceAll(entry.getKey(), entry.getValue()));
+                    //replaceAll takes "+" like concatenate lines!!! but this with Strings. if Object????
+                    if (entry.getKey().contains("+")) {
+                        String lineWithPlus = entry.getKey().replaceAll("\\+", "\\\\\\+");
+                        listData.set(i, listData.get(i).replaceAll(lineWithPlus, entry.getValue()));
+                    }else {
+                        listData.set(i, listData.get(i).replaceAll(entry.getKey(), entry.getValue()));
+                    }
                 }
             }
         }
