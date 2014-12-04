@@ -50,7 +50,8 @@ public class Menu {
                 //search data from listData matches the regex
                 Set<String> setDataForReplacement = DataProcessing.FindDataForReplacement(listDataFromFile, regex[1]);
                 //Generate a random list of conformity according to the regex
-                Set<String> setRandomData = ReplacementMethods.getRandomMethod(regex[0], setDataForReplacement);
+                GetReplacementMethod replacementMethod = ReplacementMethods.getReplacementMethod(regex[0]);
+                Set<String> setRandomData = replacementMethod.getRandom(setDataForReplacement);
                 //Generate a mapReplacement of conformity according to the regex
                 TreeMap<String, String> mapReplacement = DataProcessing.getMapReplacement(setDataForReplacement, setRandomData);
                 //print to console mapReplacement
