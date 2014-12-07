@@ -51,7 +51,7 @@ public class CreateUserData {
             if ((new File(pathToFile)).canRead()) {
                 fileCanRead = true;
             } else {
-                System.out.println("Incorrect path " + pathToFile + " !");
+                System.out.println("Incorrect path to file: " + pathToFile);
                 System.out.println("Input correct path: ");
                 pathToFile = readFromConsole();
             }
@@ -68,7 +68,7 @@ public class CreateUserData {
                 } else if ((new File(pathToFile)).canWrite()) {
                     fileCanWrite = true;
                 } else {
-                    System.out.println("Incorrect path " + pathToFile + " !");
+                    System.out.println("Incorrect path to file: " + pathToFile);
                     System.out.println("Input correct path: ");
                     pathToFile = readFromConsole();
                 }

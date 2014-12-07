@@ -1,6 +1,6 @@
 package logParser2;
 
-// -e 1 test.record ./src/logParser2/regex map.txt new.txt
+// -e 1 test.record ./src/main/java/logParser2/regex map.txt new.txt
 // -d new.txt map.txt test.txt
 
 public class Main {

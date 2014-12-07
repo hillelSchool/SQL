@@ -15,7 +15,7 @@ public class ConnectionConfig {
     private static String password;
     private static String url;
     private static String driver;
-    private static String pathToConnectConfigFile = "src/Den/config.xml";
+    private static String pathToConnectConfigFile = "src/main/java/Den/config.xml";
 
     public static String getUser() {
         return user;

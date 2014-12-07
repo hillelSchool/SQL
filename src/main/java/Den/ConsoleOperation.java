@@ -11,7 +11,7 @@ import java.util.TreeMap;
 public class ConsoleOperation {
     public static String query = null;
     public static String menu = null;
-    private static String pathToQueryToDBFile = "src/Den/QueryToDB.txt";
+    private static String pathToQueryToDBFile = "src/main/java/Den/QueryToDB.txt";
     private static boolean exitFromProgram = false;
 
     public static void selectMenuItem() {
