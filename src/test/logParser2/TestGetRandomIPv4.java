@@ -4,7 +4,6 @@ package logParser2;
 import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
-
 import static org.junit.Assert.fail;
 
 public class TestGetRandomIPv4 {
