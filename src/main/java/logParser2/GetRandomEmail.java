@@ -12,9 +12,9 @@ public class GetRandomEmail implements GetReplacementMethod {
         Set<String> setRandomData = new HashSet<>();
 
         int count = 1;
-        String emailRandom = "email_";
+        String emailRandom = "test.Email_";
         for (int i = 0; i < setData.size(); i++) {
-            setRandomData.add(emailRandom + count);
+            setRandomData.add(emailRandom + count +"@email.com");
             count++;
         }
 
