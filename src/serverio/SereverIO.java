@@ -1,4 +1,4 @@
-package server;
+package serverio;
 
 import java.io.*;
 import java.io.DataOutputStream;
@@ -10,7 +10,7 @@ import java.net.Socket;
 /**
  * Created by Богдан on 08.12.2014.
  */
-public class Serever {
+public class SereverIO {
         public static void main(String[] ar)    {
             int port = 6666; // случайный порт (может быть любое число от 1025 до 65535)
             try {
