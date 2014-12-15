@@ -15,6 +15,8 @@ import java.util.List;
  * Обеспечивает работу программы в режиме сервера
  */
 public class Server {
+    private int port;
+
     /**
      * Специальная "обёртка" для ArrayList, которая обеспечивает доступ к
      * массиву из разных нитей
@@ -28,6 +30,12 @@ public class Server {
      * объект Connection и добавляет его в список подключений.
      */
     public Server(int port) {
+        this.port = port;
+
+        startServer();
+    }
+
+    private void startServer(){
         try {
             server = new ServerSocket(port);
             System.out.println("Server was started");

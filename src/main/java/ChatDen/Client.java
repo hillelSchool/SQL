@@ -14,19 +14,28 @@ public class Client {
     private BufferedReader inputStream;
     private PrintWriter outputStream;
     private Socket socket;
+    private String ip;
+    private int port;
 
     /**
      * Запрашивает у пользователя ник и организовывает обмен сообщениями с
      * сервером
      */
     public Client(String ip, int port) {
+        this.ip = ip;
+        this.port = port;
+
+        startClient();
+    }
+
+    private void startClient(){
         Scanner scan = new Scanner(System.in);
 
         try {
             // Подключаемся в серверу и получаем потоки(inputStream и outputStream) для передачи сообщений
 
             while (true) {
-               socket = new Socket(ip, port);
+                socket = new Socket(ip, port);
                 inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 outputStream = new PrintWriter(socket.getOutputStream(), true);  //true - autoFlush!!!
 
@@ -50,7 +59,7 @@ public class Client {
                     }
                     resend.setStop();
                 } else if (command.equals("d")) {
-                    break;
+                    System.exit(0);
                 }
             }
 

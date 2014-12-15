@@ -10,9 +10,14 @@ public class MainChat {
 
     /**
      * Example:
-     * server: s 8283
+     * server: s
      */
     public static void main(String[] args) {
+
+        if (args.length <= 0) {
+            System.err.println("Usage: java MainChat s (s - server/ c - client/ n - serverNIO)");
+            System.exit(1);
+        }
 
         Properties properties = new Properties();
         InputStream inputStream;
@@ -27,19 +32,23 @@ public class MainChat {
         String ip = properties.getProperty("ip");
         int port = Integer.parseInt(properties.getProperty("port"));
 
-        Scanner in = new Scanner(System.in);
-        System.out.print("Запустить программу в режиме сервера или клиента? (S(erver) / C(lient)): ");
-        char answer = Character.toLowerCase(in.nextLine().charAt(0));
-//        char answer = Character.toLowerCase(args[0].charAt(0));
+//        Scanner in = new Scanner(System.in);
+//        System.out.print("Запустить программу в режиме сервера или клиента? (S(erver) / C(lient)): ");
+//        char answer = Character.toLowerCase(in.nextLine().charAt(0));
+        char answer = Character.toLowerCase(args[0].charAt(0));
         if (answer == 's') {
 
             new Server(port);
 
-        } if (answer == 'c'){
+        } else if (answer == 'c') {
 
             new Client(ip, port);
 
-        }else {
+        } else if (answer == 'n') {
+
+            new ServerNio(port);
+
+        } else {
             System.out.println("Wrong command");
         }
     }
