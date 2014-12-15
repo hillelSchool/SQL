@@ -56,15 +56,4 @@ public class ServerNio {
             System.out.println("IOException startServer()");
         }
     }
-
-    static public void main(String args[]) {
-        if (args.length <= 0) {
-            System.err.println("Usage: java MultiPortEcho port");
-            System.exit(1);
-        }
-
-        int port = 8283;
-
-        new ServerNio(port);
-    }
 }
