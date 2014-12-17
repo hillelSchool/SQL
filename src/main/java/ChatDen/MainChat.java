@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Scanner;
 
 public class MainChat {
 
@@ -38,16 +37,21 @@ public class MainChat {
         char answer = Character.toLowerCase(args[0].charAt(0));
         if (answer == 's') {
 
-            new Server(port);
+            Server server = new Server(port);
+            server.startServer();
 
         } else if (answer == 'c') {
 
-            new Client(ip, port);
+            Client client = new Client(ip, port);
+            client.startClient();
 
         } else if (answer == 'n') {
 
-            new ServerNio(port);
-
+            try {
+                new ServerEchoNio(port).startServerEchoNio();
+            } catch (IOException e) {
+                System.out.println("IOException ServerNio");
+            }
         } else {
             System.out.println("Wrong command");
         }

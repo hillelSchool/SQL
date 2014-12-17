@@ -31,11 +31,9 @@ public class Server {
      */
     public Server(int port) {
         this.port = port;
-
-        startServer();
     }
 
-    private void startServer(){
+    public void startServer(){
         try {
             server = new ServerSocket(port);
             System.out.println("Server was started");
@@ -182,5 +180,9 @@ public class Server {
                 System.err.println("Потоки не были закрыты!");
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new Server(8283).startServer();
     }
 }

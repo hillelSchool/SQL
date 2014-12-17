@@ -24,17 +24,15 @@ public class Client {
     public Client(String ip, int port) {
         this.ip = ip;
         this.port = port;
-
-        startClient();
     }
 
-    private void startClient(){
+    public void startClient() {
         Scanner scan = new Scanner(System.in);
 
         try {
             // Подключаемся в серверу и получаем потоки(inputStream и outputStream) для передачи сообщений
-
-            while (true) {
+            boolean exitFromChat = false;
+            while (!exitFromChat) {
                 socket = new Socket(ip, port);
                 inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 outputStream = new PrintWriter(socket.getOutputStream(), true);  //true - autoFlush!!!
@@ -59,7 +57,7 @@ public class Client {
                     }
                     resend.setStop();
                 } else if (command.equals("d")) {
-                    System.exit(0);
+                    exitFromChat = true;
                 }
             }
 
@@ -109,16 +107,20 @@ public class Client {
             try {
                 while (!stoped) {
                     String str = inputStream.readLine();
-                    System.out.println(str);
                     if (str == null) {
                         System.out.println("Server was stop");
                         System.exit(0);
                     }
+                    System.out.println(str);
                 }
             } catch (IOException e) {
                 System.err.println("Ошибка при получении сообщения.");
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new Client("127.0.0.1", 8283).startClient();
     }
 }
